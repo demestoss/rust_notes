@@ -1,6 +1,6 @@
 # Rust comp proc_macro
 
-Learning rust proc macro system with creating comp macro. Using `syn` and `quote` libraries
+Learning rust proc macro system with creating comp macro. Using (`syn`)[https://crates.io/crates/syn] and (`quote`)[https://crates.io/crates/quote] libraries to create python-like syntax and produce valid Rust
 
 Supporting comp Python syntax using Rust macro system 
 
