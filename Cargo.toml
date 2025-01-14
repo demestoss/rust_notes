@@ -7,4 +7,5 @@ members = [
   "proc-python-macro",
   "strsplit",
   "collections/*",
+  "iter/*",
 ]
