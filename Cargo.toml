@@ -1,7 +1,6 @@
 [workspace]
 resolver = "2"
 members = [
-  "mutex",
   "async-crust",
   "proc-python-macro",
   "strsplit",
@@ -9,4 +8,5 @@ members = [
   "iter/*",
   "pointers/*",
   "channels",
+  "sorting",
 ]
