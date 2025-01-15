@@ -3,7 +3,7 @@
 
 use std::ops::Deref;
 
-struct Rc<T> {
+pub struct Rc<T> {
     inner: *mut Inner<T>,
 }
 
@@ -46,10 +46,4 @@ impl<T> Deref for Rc<T> {
     }
 }
 
-fn main() {
-    let x = Rc::new(42);
-    let y = x.clone();
-    std::thread::spawn(move || {
-        drop(y);
-    });
-}
+
