@@ -8,4 +8,5 @@ members = [
   "collections/*",
   "iter/*",
   "pointers/*",
+  "channels",
 ]
