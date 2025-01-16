@@ -85,7 +85,6 @@ fn bench<T: Ord + Clone + Debug, S: Sorter>(
     sorter.sort(&mut values);
     let took = time.elapsed();
     let count = counter.load(Ordering::Relaxed);
-    dbg!(&values.iter().map(|x| &x.t).collect::<Vec<_>>());
     assert!(values.is_sorted());
     (count, took.as_secs_f64())
 }

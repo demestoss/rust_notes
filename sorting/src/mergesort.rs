@@ -1,6 +1,3 @@
-use core::slice;
-use std::intrinsics::rotate_right;
-
 use crate::Sorter;
 
 pub struct MergeSort;
@@ -29,7 +26,7 @@ fn mergesort<T: Ord>(slice: &mut [T]) {
         if slice[left] <= slice[right] {
             left += 1;
         } else {
-            slice[left..mid].rotate_right(1);
+            slice[left..=right].rotate_right(1);
             left += 1;
             mid += 1;
             right += 1;
