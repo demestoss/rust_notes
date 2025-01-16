@@ -1,7 +1,7 @@
 use crate::Sorter;
 
 pub struct InsertionSort {
-    smart: bool,
+    pub smart: bool,
 }
 
 impl Sorter for InsertionSort {

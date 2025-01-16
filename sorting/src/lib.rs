@@ -4,24 +4,33 @@ pub trait Sorter {
         T: Ord;
 }
 
+pub struct StdSort;
+impl Sorter for StdSort {
+    fn sort<T>(&self, slice: &mut [T])
+    where
+        T: Ord,
+    {
+        slice.sort();
+    }
+}
+
 mod bubblesort;
+mod heapsort;
 mod insertionsort;
-mod selectionsort;
+mod mergesort;
 mod quicksort;
+mod selectionsort;
+
+pub use bubblesort::BubbleSort;
+pub use heapsort::HeapSort;
+pub use insertionsort::InsertionSort;
+pub use mergesort::MergeSort;
+pub use quicksort::QuickSort;
+pub use selectionsort::SelectionSort;
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    struct StdSort;
-    impl Sorter for StdSort {
-        fn sort<T>(&self, slice: &mut [T])
-        where
-            T: Ord,
-        {
-            slice.sort();
-        }
-    }
 
     #[test]
     fn std_works() {

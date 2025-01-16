@@ -19,7 +19,7 @@ fn quicksort<T: Ord>(slice: &mut [T]) {
     let mut left = 0;
     let mut right = rest.len() - 1;
 
-    while left <= right {
+    while left <= right && right != 0 {
         if &rest[left] <= pivot {
             // already on the correct side
             left += 1;

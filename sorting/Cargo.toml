@@ -3,7 +3,12 @@ name = "sorting"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "bench"
+path = "benches/main.rs"
+
 [dependencies]
+rand = "0.8.5"
 
 [dev-dependencies]
 itertools = "0.14.0"
