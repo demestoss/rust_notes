@@ -16,11 +16,11 @@ fn mergesort<T: Ord>(slice: &mut [T]) {
 
     let mut mid = slice.len() / 2;
 
-    mergesort(&mut slice[..=mid]);
-    mergesort(&mut slice[mid + 1..]);
+    mergesort(&mut slice[..mid]);
+    mergesort(&mut slice[mid..]);
 
     let mut left = 0;
-    let mut right = mid + 1;
+    let mut right = mid;
 
     while left <= mid && right < slice.len() {
         if slice[left] <= slice[right] {
