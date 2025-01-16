@@ -1,4 +1,5 @@
 use core::slice;
+use std::intrinsics::rotate_right;
 
 use crate::Sorter;
 
@@ -16,7 +17,7 @@ fn mergesort<T: Ord>(slice: &mut [T]) {
         _ => {}
     }
 
-    let mid = slice.len() / 2;
+    let mut mid = slice.len() / 2;
 
     mergesort(&mut slice[..=mid]);
     mergesort(&mut slice[mid + 1..]);
@@ -27,9 +28,11 @@ fn mergesort<T: Ord>(slice: &mut [T]) {
     while left <= mid && right < slice.len() {
         if slice[left] <= slice[right] {
             left += 1;
-        } else if slice[left] > slice[right] {
-            slice.swap(left, right);
+        } else {
+            slice[left..mid].rotate_right(1);
             left += 1;
+            mid += 1;
+            right += 1;
         }
     }
 }
