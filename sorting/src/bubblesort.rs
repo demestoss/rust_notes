@@ -1,9 +1,9 @@
 use crate::Sorter;
 
-pub struct Bubblesort;
+pub struct BubbleSort;
 
-impl Sorter for Bubblesort {
-    fn sort<T>(slice: &mut [T])
+impl Sorter for BubbleSort {
+    fn sort<T>(&self, slice: &mut [T])
     where
         T: Ord,
     {
@@ -23,26 +23,25 @@ impl Sorter for Bubblesort {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::IteratorExt;
 
     #[test]
     fn works() {
-        let x = [3, 4, 2, 1];
-        let x = x.iter().sorted::<Bubblesort>();
-        itertools::assert_equal(x, &[1, 2, 3, 4]);
+        let mut x = vec![3, 4, 2, 1];
+        BubbleSort.sort(&mut x);
+        assert_eq!(x, vec![1, 2, 3, 4]);
     }
 
     #[test]
     fn odd_length() {
-        let x = [3, 4, 2, 1, 5];
-        let x = x.iter().sorted::<Bubblesort>();
-        itertools::assert_equal(x, &[1, 2, 3, 4, 5]);
+        let mut x = vec![3, 4, 2, 1, 5];
+        BubbleSort.sort(&mut x);
+        assert_eq!(x, vec![1, 2, 3, 4, 5]);
     }
 
     #[test]
     fn empty() {
-        let x: Vec<()> = vec![];
-        let x = x.iter().sorted::<Bubblesort>();
-        itertools::assert_equal(x, &[]);
+        let mut x: Vec<()> = vec![];
+        BubbleSort.sort(&mut x);
+        assert_eq!(x, vec![]);
     }
 }
