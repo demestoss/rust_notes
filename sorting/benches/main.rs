@@ -1,5 +1,7 @@
 use std::{
-    fmt::Debug, rc::Rc, sync::atomic::{AtomicUsize, Ordering}
+    fmt::Debug,
+    rc::Rc,
+    sync::atomic::{AtomicUsize, Ordering},
 };
 
 use rand::prelude::*;
@@ -64,6 +66,9 @@ fn main() {
 
             let took = bench(MergeSort, &values, &counter);
             println!("merge: {n} {} {}", took.0, took.1);
+
+            let took = bench(HeapSort, &values, &counter);
+            println!("heap: {n} {} {}", took.0, took.1);
 
             let took = bench(QuickSort, &values, &counter);
             println!("quick: {n} {} {}", took.0, took.1);

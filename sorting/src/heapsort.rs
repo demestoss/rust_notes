@@ -3,27 +3,30 @@ use crate::Sorter;
 pub struct HeapSort;
 
 fn heapify<T: Ord>(slice: &mut [T]) {
-    //
+    // Going backwards through slice and swap elements is child is less than parent
+    for i in 0..slice.len() {
+        shift_elem(slice, slice.len() - 1 - i);
+    }
 }
 
-fn swap_on_place<T: Ord>(slice: &mut [T], parent_idx: usize) {
-    let left_idx = parent_idx * 2 + 1;
-    let right_idx = parent_idx * 2 + 2;
+// Shift element from the current index to the place where it belongs
+// Checking left and right branches accordingly
+fn shift_elem<T: Ord>(slice: &mut [T], current_idx: usize) {
+    let left_idx = current_idx * 2 + 1;
+    let right_idx = current_idx * 2 + 2;
 
-    if let Some(left) = slice.get(left_idx) {
-        let current = &slice[parent_idx];
-        if left > current {
-            slice.swap(parent_idx, left_idx);
-            swap_on_place(slice, left_idx);
-        }
-    }
+    swap_on_place(slice, current_idx, left_idx);
+    swap_on_place(slice, current_idx, right_idx);
+}
 
-    if let Some(right) = slice.get(right_idx) {
-        let current = &slice[parent_idx];
-        if right > current {
-            slice.swap(parent_idx, right_idx);
-            swap_on_place(slice, right_idx);
-        }
+// Swap if the current item is less than child
+// Using Option type to cmp
+fn swap_on_place<T: Ord>(slice: &mut [T], parent_idx: usize, next_idx: usize) {
+    let current = slice.get(parent_idx);
+
+    if slice.get(next_idx) > current {
+        slice.swap(parent_idx, next_idx);
+        shift_elem(slice, next_idx);
     }
 }
 
@@ -37,7 +40,7 @@ impl Sorter for HeapSort {
         for i in 1..slice.len() {
             let last_index = slice.len() - i;
             slice.swap(0, last_index);
-            swap_on_place(&mut slice[0..last_index], 0);
+            shift_elem(&mut slice[0..last_index], 0);
         }
     }
 }
