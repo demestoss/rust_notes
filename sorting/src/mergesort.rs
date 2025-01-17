@@ -14,14 +14,22 @@ fn mergesort<T: Ord>(slice: &mut [T]) {
         _ => {}
     }
 
-    let mut mid = slice.len() / 2;
+    let mid = slice.len() / 2;
 
     mergesort(&mut slice[..mid]);
     mergesort(&mut slice[mid..]);
 
+    merge(slice, mid);
+}
+
+fn merge<T: Ord>(slice: &mut [T], mid: usize) {
+    let mut mid = mid;
     let mut left = 0;
     let mut right = mid;
 
+    // Looking at slice as a 2 slice with the boundary [| left - mid | | mid - right |]
+    // Either moving until the left will be empty [sorted | mid - right |] => [sorted]
+    // Or moving the mid pointer as well so the right will be empty at some point
     while left <= mid && right < slice.len() {
         if slice[left] <= slice[right] {
             left += 1;
