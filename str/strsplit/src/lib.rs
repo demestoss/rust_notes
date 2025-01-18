@@ -1,5 +1,7 @@
 //! Docs?
-#![warn(missing_debug_implementations, missing_docs)]
+// #![warn(missing_debug_implementations, missing_docs)]
+
+use delimiter::Delimiter;
 
 #[derive(Debug)]
 pub struct StrSplit<'a, D> {
@@ -16,13 +18,9 @@ impl<'a, D> StrSplit<'a, D> {
     }
 }
 
-pub trait Delimeter {
-    fn find_next(&self, s: &str) -> Option<(usize, usize)>;
-}
-
 impl<'a, D> Iterator for StrSplit<'a, D>
 where
-    D: Delimeter,
+    D: Delimiter,
 {
     type Item = &'a str;
 
@@ -36,20 +34,6 @@ where
         } else {
             self.remainder.take()
         }
-    }
-}
-
-impl Delimeter for &str {
-    fn find_next(&self, s: &str) -> Option<(usize, usize)> {
-        s.find(self).map(|start| (start, start + self.len()))
-    }
-}
-
-impl Delimeter for char {
-    fn find_next(&self, s: &str) -> Option<(usize, usize)> {
-        s.char_indices()
-            .find(|(_, c)| c == self)
-            .map(|(start, _)| (start, start + self.len_utf8()))
     }
 }
 

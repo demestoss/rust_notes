@@ -3,10 +3,10 @@ resolver = "2"
 members = [
   "async-crust",
   "proc-python-macro",
-  "strsplit",
+  "channels",
+  "sorting",
   "collections/*",
   "iter/*",
   "pointers/*",
-  "channels",
-  "sorting",
+  "str/*",
 ]

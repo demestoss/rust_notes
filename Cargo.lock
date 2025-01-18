@@ -104,6 +104,10 @@ name = "cow"
 version = "0.1.0"
 
 [[package]]
+name = "delimiter"
+version = "0.1.0"
+
+[[package]]
 name = "either"
 version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -478,6 +482,16 @@ dependencies = [
 [[package]]
 name = "strsplit"
 version = "0.1.0"
+dependencies = [
+ "delimiter",
+]
+
+[[package]]
+name = "strtok"
+version = "0.1.0"
+dependencies = [
+ "delimiter",
+]
 
 [[package]]
 name = "syn"
