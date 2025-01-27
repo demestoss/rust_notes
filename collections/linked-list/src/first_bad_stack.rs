@@ -1,6 +1,6 @@
 use std::mem;
 
-pub struct List {
+pub struct BadStackList {
     head: Link,
 }
 
@@ -14,7 +14,7 @@ struct Node {
     next: Link,
 }
 
-impl List {
+impl BadStackList {
     pub fn new() -> Self {
         Self { head: Link::Empty }
     }
@@ -38,7 +38,7 @@ impl List {
     }
 }
 
-impl Drop for List {
+impl Drop for BadStackList {
     fn drop(&mut self) {
         let mut cur_link = mem::replace(&mut self.head, Link::Empty);
         while let Link::More(mut boxed_node) = cur_link {
@@ -47,7 +47,7 @@ impl Drop for List {
     }
 }
 
-impl Default for List {
+impl Default for BadStackList {
     fn default() -> Self {
         Self::new()
     }
@@ -59,7 +59,7 @@ mod tests {
 
     #[test]
     fn basics() {
-        let mut list = List::new();
+        let mut list = BadStackList::new();
 
         // Check empty list behaves right
         assert_eq!(list.pop(), None);

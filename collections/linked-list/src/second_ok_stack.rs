@@ -1,4 +1,4 @@
-pub struct List<T> {
+pub struct StackList<T> {
     head: Link<T>,
 }
 
@@ -9,7 +9,7 @@ struct Node<T> {
     next: Link<T>,
 }
 
-impl<T> List<T> {
+impl<T> StackList<T> {
     pub fn new() -> Self {
         Self { head: None }
     }
@@ -52,9 +52,9 @@ impl<T> List<T> {
     }
 }
 
-pub struct IntoIter<T>(List<T>);
+pub struct IntoIter<T>(StackList<T>);
 
-impl<T> IntoIterator for List<T> {
+impl<T> IntoIterator for StackList<T> {
     type Item = T;
 
     type IntoIter = IntoIter<T>;
@@ -101,7 +101,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
     }
 }
 
-impl<T> Drop for List<T> {
+impl<T> Drop for StackList<T> {
     fn drop(&mut self) {
         let mut cur_link = self.head.take();
         while let Some(mut boxed_node) = cur_link {
@@ -110,7 +110,7 @@ impl<T> Drop for List<T> {
     }
 }
 
-impl<T> Default for List<T> {
+impl<T> Default for StackList<T> {
     fn default() -> Self {
         Self::new()
     }
@@ -122,7 +122,7 @@ mod tests {
 
     #[test]
     fn basics() {
-        let mut list = List::new();
+        let mut list = StackList::new();
 
         // Check empty list behaves right
         assert_eq!(list.pop(), None);
@@ -151,7 +151,7 @@ mod tests {
 
     #[test]
     fn peek() {
-        let mut list = List::new();
+        let mut list = StackList::new();
         assert_eq!(list.peek(), None);
         assert_eq!(list.peek_mut(), None);
         list.push(1);
@@ -171,7 +171,7 @@ mod tests {
 
     #[test]
     fn into_iter() {
-        let mut list = List::new();
+        let mut list = StackList::new();
         list.push(1);
         list.push(2);
         list.push(3);
@@ -185,7 +185,7 @@ mod tests {
 
     #[test]
     fn iter() {
-        let mut list = List::new();
+        let mut list = StackList::new();
         list.push(1);
         list.push(2);
         list.push(3);
@@ -198,7 +198,7 @@ mod tests {
 
     #[test]
     fn iter_mut() {
-        let mut list = List::new();
+        let mut list = StackList::new();
         list.push(1);
         list.push(2);
         list.push(3);

@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-pub struct List<T> {
+pub struct ImmutableList<T> {
     head: Link<T>,
 }
 
@@ -11,13 +11,13 @@ struct Node<T> {
     next: Link<T>,
 }
 
-impl<T> List<T> {
+impl<T> ImmutableList<T> {
     pub fn new() -> Self {
         Self { head: None }
     }
 
-    pub fn prepend(&self, elem: T) -> List<T> {
-        List {
+    pub fn prepend(&self, elem: T) -> ImmutableList<T> {
+        ImmutableList {
             head: Some(Arc::new(Node {
                 elem,
                 next: self.head.clone(),
@@ -25,8 +25,8 @@ impl<T> List<T> {
         }
     }
 
-    pub fn tail(&self) -> List<T> {
-        List {
+    pub fn tail(&self) -> ImmutableList<T> {
+        ImmutableList {
             head: self.head.as_ref().and_then(|node| node.next.clone()),
         }
     }
@@ -40,7 +40,7 @@ pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
 
-impl<T> List<T> {
+impl<T> ImmutableList<T> {
     pub fn iter(&self) -> Iter<T> {
         Iter {
             next: self.head.as_deref(),
@@ -59,7 +59,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
     }
 }
 
-impl<T> Drop for List<T> {
+impl<T> Drop for ImmutableList<T> {
     fn drop(&mut self) {
         let mut head = self.head.take();
         while let Some(node) = head {
@@ -74,11 +74,11 @@ impl<T> Drop for List<T> {
 
 #[cfg(test)]
 mod test {
-    use super::List;
+    use super::ImmutableList;
 
     #[test]
     fn basics() {
-        let list = List::new();
+        let list = ImmutableList::new();
         assert_eq!(list.head(), None);
 
         let list = list.prepend(1).prepend(2).prepend(3);
@@ -100,7 +100,7 @@ mod test {
 
     #[test]
     fn iter() {
-        let list = List::new().prepend(1).prepend(2).prepend(3);
+        let list = ImmutableList::new().prepend(1).prepend(2).prepend(3);
 
         let mut iter = list.iter();
         assert_eq!(iter.next(), Some(&3));
