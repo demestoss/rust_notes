@@ -36,6 +36,12 @@ impl<T> ImmutableList<T> {
     }
 }
 
+impl<T> Default for ImmutableList<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
