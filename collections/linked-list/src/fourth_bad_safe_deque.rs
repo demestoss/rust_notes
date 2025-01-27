@@ -3,7 +3,7 @@ use std::{
     rc::Rc,
 };
 
-pub struct SafeDequeueList<T> {
+pub struct SafeDequeList<T> {
     head: Link<T>,
     tail: Link<T>,
 }
@@ -26,7 +26,7 @@ impl<T> Node<T> {
     }
 }
 
-impl<T> SafeDequeueList<T> {
+impl<T> SafeDequeList<T> {
     pub fn new() -> Self {
         Self {
             head: None,
@@ -121,9 +121,9 @@ impl<T> SafeDequeueList<T> {
     }
 }
 
-pub struct IntoIter<T>(SafeDequeueList<T>);
+pub struct IntoIter<T>(SafeDequeList<T>);
 
-impl<T> IntoIterator for SafeDequeueList<T> {
+impl<T> IntoIterator for SafeDequeList<T> {
     type Item = T;
 
     type IntoIter = IntoIter<T>;
@@ -165,13 +165,13 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
 //     }
 // }
 
-impl<T> Drop for SafeDequeueList<T> {
+impl<T> Drop for SafeDequeList<T> {
     fn drop(&mut self) {
         while self.pop_front().is_some() {}
     }
 }
 
-impl<T> Default for SafeDequeueList<T> {
+impl<T> Default for SafeDequeList<T> {
     fn default() -> Self {
         Self::new()
     }
@@ -179,11 +179,11 @@ impl<T> Default for SafeDequeueList<T> {
 
 #[cfg(test)]
 mod test {
-    use super::SafeDequeueList;
+    use super::SafeDequeList;
 
     #[test]
     fn basics() {
-        let mut list = SafeDequeueList::default();
+        let mut list = SafeDequeList::default();
 
         // Check empty list behaves right
         assert_eq!(list.pop_front(), None);
@@ -238,7 +238,7 @@ mod test {
 
     #[test]
     fn peek() {
-        let mut list = SafeDequeueList::default();
+        let mut list = SafeDequeList::default();
         assert!(list.peek_front_mut().is_none());
         assert!(list.peek_back_mut().is_none());
 
@@ -252,7 +252,7 @@ mod test {
 
     #[test]
     fn into_iter() {
-        let mut list = SafeDequeueList::default();
+        let mut list = SafeDequeList::default();
         list.push_front(1);
         list.push_front(2);
         list.push_front(3);
