@@ -80,12 +80,90 @@ impl<T> LinkedList<T> {
         Some(result)
     }
 
+    pub fn front(&self) -> Option<&T> {
+        let node = self.front?;
+        // Safety: Pointer on the front is not null, it only can be constructed from Box
+        unsafe { Some(&(*node.as_ptr()).elem) }
+    }
+
+    pub fn back(&self) -> Option<&T> {
+        let node = self.back?;
+        // Safety: Pointer on the back is not null, it only can be constructed from Box
+        unsafe { Some(&(*node.as_ptr()).elem) }
+    }
+
+    pub fn front_mut(&mut self) -> Option<&mut T> {
+        let node = self.front?;
+        // Safety: Pointer on the front is not null, it only can be constructed from Box
+        unsafe { Some(&mut (*node.as_ptr()).elem) }
+    }
+
+    pub fn back_mut(&mut self) -> Option<&mut T> {
+        let node = self.back?;
+        // Safety: Pointer on the back is not null, it only can be constructed from Box
+        unsafe { Some(&mut (*node.as_ptr()).elem) }
+    }
+
     pub fn len(&self) -> usize {
         self.len
     }
 
     pub fn is_empty(&self) -> bool {
         self.len == 0
+    }
+}
+
+pub struct Iter<'a, T> {
+    front: Link<T>,
+    back: Link<T>,
+    len: usize,
+    _boo: PhantomData<&'a T>,
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.len == 0 {
+            None
+        } else {
+            let node = self.front?;
+            self.len -= 1;
+            self.front = unsafe { (*node.as_ptr()).back };
+            unsafe { Some(&(*node.as_ptr()).elem) }
+        }
+    }
+}
+
+impl<T> ExactSizeIterator for Iter<'_, T> {
+    fn len(&self) -> usize {
+        self.len
+    }
+}
+
+impl<T> LinkedList<T> {
+    pub fn iter(&self) -> Iter<T> {
+        Iter {
+            front: self.front,
+            back: self.back,
+            len: self.len,
+            _boo: PhantomData,
+        }
+    }
+}
+
+impl<'a, T> IntoIterator for &'a LinkedList<T> {
+    type IntoIter = Iter<'a, T>;
+    type Item = &'a T;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
+impl<T> Drop for LinkedList<T> {
+    fn drop(&mut self) {
+        while self.pop_front().is_some() {}
     }
 }
 
